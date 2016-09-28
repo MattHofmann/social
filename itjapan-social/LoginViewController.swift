@@ -65,7 +65,8 @@ class LoginViewController: UIViewController {
                 if error == nil {
                     print("DEV: Email user authenticated with Firebase")
                     if let user = user {
-                        self.completeSignIn(id: user.uid)
+                        let userData = ["provider": user.providerID]
+                        self.completeSignIn(id: user.uid, userData: userData)
                     }
                 } else {
                     FIRAuth.auth()?.createUser(withEmail: email, password: pwd, completion: { (user, error) in
@@ -74,7 +75,8 @@ class LoginViewController: UIViewController {
                         } else {
                             print("DEV: Account created and successfully authenticated with Firebase")
                             if let user = user {
-                                self.completeSignIn(id: user.uid)
+                                let userData = ["provider": user.providerID]
+                                self.completeSignIn(id: user.uid, userData: userData)
                             }
                         }
                     })
@@ -91,15 +93,20 @@ class LoginViewController: UIViewController {
             } else {
                 print("DEV: Successfully authenticated with Firebase")
                 if let user = user {
-                    self.completeSignIn(id: user.uid)
+                    let userData = ["provider": credential.provider]
+                    self.completeSignIn(id: user.uid, userData: userData)
                 }
             }
         })
     }
 
-    func completeSignIn(id: String) {
+    func completeSignIn(id: String, userData: Dictionary<String, String>) {
+        // create the firebase user
+        DataService.ds.createFirebaseDBUser(uid: id, userData: userData)
+        // add userid to keychain
         let  keychainResult = KeychainWrapper.defaultKeychainWrapper().setString(id, forKey: KEY_UID)
         print("DEV: Data saved to keychain \(keychainResult)")
+        // segue to FeedViewController
         performSegue(withIdentifier: "FeedVC", sender: nil)
     }
     

@@ -90,10 +90,10 @@
 		B43503761D9A470100806375 /* itjapan-social */ = {
 			isa = PBXGroup;
 			children = (
-				B4D0373F1D9B405900945A15 /* Utilities */,
 				B435038D1D9A4A9500806375 /* Model */,
 				B435038C1D9A4A8D00806375 /* View */,
 				B435038B1D9A4A8500806375 /* Controller */,
+				B4D0373F1D9B405900945A15 /* Utilities */,
 				B43503771D9A470100806375 /* AppDelegate.swift */,
 				B435037B1D9A470100806375 /* Main.storyboard */,
 				B435037E1D9A470100806375 /* Assets.xcassets */,
@@ -107,6 +107,7 @@
 		B435038B1D9A4A8500806375 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B43503791D9A470100806375 /* LoginViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -125,7 +126,6 @@
 		B435038D1D9A4A9500806375 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B43503791D9A470100806375 /* LoginViewController.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";

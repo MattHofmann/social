@@ -68,9 +68,6 @@
                                     <constraint firstAttribute="width" constant="125" id="GL8-lp-47a"/>
                                 </constraints>
                                 <state key="normal" image="f"/>
-                                <connections>
-                                    <action selector="facebookButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JCK-IW-k5M"/>
-                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uy8-pQ-y8y" userLabel="Separator">
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -88,7 +85,7 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fKS-Po-PnA" customClass="CustomTextField" customModule="itjapan_social" customModuleProvider="target">
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.87" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jy6-8O-XfD" customClass="CustomButton" customModule="itjapan_social" customModuleProvider="target">
                                         <color key="backgroundColor" red="0.96470588235294119" green="0.42352941176470588" blue="0.23921568627450979" alpha="1" colorSpace="calibratedRGB"/>
@@ -96,6 +93,9 @@
                                         <state key="normal" title="Sign In">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="loginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yRl-Sr-Pjf"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -122,6 +122,10 @@
                             <constraint firstAttribute="trailingMargin" secondItem="uy8-pQ-y8y" secondAttribute="trailing" constant="20" id="zfz-fL-TAE"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emailField" destination="ypw-Uc-KHz" id="h59-fH-D7Z"/>
+                        <outlet property="pwdField" destination="fKS-Po-PnA" id="zBk-ii-h12"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

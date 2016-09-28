@@ -13,6 +13,11 @@ import Firebase
 
 class LoginViewController: UIViewController {
 
+    
+    @IBOutlet weak var emailField: CustomTextField!
+    @IBOutlet weak var pwdField: CustomTextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -23,7 +28,7 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // facebook auth
+    // facebook authentification
     @IBAction func facebookButtonPressed(_ sender: AnyObject) {
         // create loginmanager
         let facebookLogin = FBSDKLoginManager()
@@ -41,7 +46,30 @@ class LoginViewController: UIViewController {
         }
     }
     
-    // firebase auth method
+    // email authentication
+    @IBAction func loginButtonPressed(_ sender: UIButton) {
+        // TODO: add alert if the user dont enter anything
+        // TODO: the password for firebase has to be at least 6 characters long
+        
+        //
+        if let email = emailField.text, let pwd = pwdField.text {
+            FIRAuth.auth()?.signIn(withEmail: email, password: pwd, completion: { (user, error) in
+                if error == nil {
+                    print("DEV: Email user authenticated with Firebase")
+                } else {
+                    FIRAuth.auth()?.createUser(withEmail: email, password: pwd, completion: { (user, error) in
+                        if error != nil {
+                            print("DEV: Unable to authenticate with Firebase using email - \(error)")
+                        } else {
+                            print("DEV: Account created and successfully authenticated with Firebase")
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
+    // firebase authentication method
     func firebaseAuth(_ credential: FIRAuthCredential) {
         FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
             if error != nil {

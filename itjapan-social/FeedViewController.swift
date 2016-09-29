@@ -17,9 +17,15 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // tableView delegates
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // listener
+        DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
+            print(snapshot.value)
+        })
+    
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {

@@ -10,11 +10,19 @@ import UIKit
 import Firebase
 import SwiftKeychainWrapper
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    // MARK: IBOutlets
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addImage: CircleView!
+    
+    // MARK: Variables
     
     var posts = [Post]()
+    var imagePicker: UIImagePickerController!
+    
+    // MARK: VC Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +31,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         
-        // listener
+        // initalize image picker
+        imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        
+        // listener to get post data
         DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
             // print(snapshot.value)
             self.posts = []
@@ -44,6 +57,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     }
 
+    // MARK: TableView
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -64,6 +79,18 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // MARK: Imagepicker
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+            addImage.image = image
+        } else {
+            print("DEV: Invalid image selected")
+        }
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: IBActions
     
     @IBAction func signOutButtonPressed(_ sender: UIButton) {
         let keychainResult = KeychainWrapper.defaultKeychainWrapper().removeObjectForKey(KEY_UID)
@@ -72,6 +99,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func addImagePressed(_ sender: AnyObject) {
+        present(imagePicker, animated: true, completion: nil)
+    }
+
     /*
     // MARK: - Navigation
 

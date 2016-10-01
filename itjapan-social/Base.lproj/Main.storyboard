@@ -178,26 +178,31 @@
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Xua-bY-Vbc">
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eSa-8f-AEH" customClass="RoundButton" customModule="itjapan_social" customModuleProvider="target">
+                                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-image" translatesAutoresizingMaskIntoConstraints="NO" id="ZoM-FP-raG" customClass="CircleView" customModule="itjapan_social" customModuleProvider="target">
                                                 <color key="backgroundColor" red="0.23869630689999999" green="0.49844002720000002" blue="0.59990984199999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="49" id="41e-AL-Q8J"/>
-                                                    <constraint firstAttribute="height" constant="49" id="CO3-bQ-x3C"/>
+                                                    <constraint firstAttribute="height" constant="49" id="LMs-Hw-riz"/>
+                                                    <constraint firstAttribute="width" constant="49" id="j7L-gh-WND"/>
                                                 </constraints>
-                                                <state key="normal" image="add-image"/>
-                                            </button>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="G9s-rn-IFg" appends="YES" id="B3a-s4-AfJ"/>
+                                                </connections>
+                                            </imageView>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add a caption" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XVL-da-3pr" customClass="CustomTextField" customModule="itjapan_social" customModuleProvider="target">
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-post" translatesAutoresizingMaskIntoConstraints="NO" id="ZoM-FP-raG" customClass="CircleView" customModule="itjapan_social" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eSa-8f-AEH" customClass="RoundButton" customModule="itjapan_social" customModuleProvider="target">
                                                 <color key="backgroundColor" red="0.96470588239999999" green="0.42352941179999998" blue="0.23921568630000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="49" id="LMs-Hw-riz"/>
-                                                    <constraint firstAttribute="width" constant="49" id="j7L-gh-WND"/>
+                                                    <constraint firstAttribute="width" constant="49" id="41e-AL-Q8J"/>
+                                                    <constraint firstAttribute="height" constant="49" id="CO3-bQ-x3C"/>
                                                 </constraints>
-                                            </imageView>
+                                                <state key="normal" image="add-post"/>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -321,6 +326,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addImage" destination="ZoM-FP-raG" id="ojT-jY-pAU"/>
                         <outlet property="tableView" destination="arC-Zw-xeA" id="xrC-p5-evk"/>
                     </connections>
                 </viewController>
@@ -328,6 +334,11 @@
                 <tapGestureRecognizer id="XHF-bD-doi">
                     <connections>
                         <action selector="signOutButtonPressed:" destination="0IY-D9-1dL" id="Yop-jh-EbO"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="G9s-rn-IFg">
+                    <connections>
+                        <action selector="addImagePressed:" destination="0IY-D9-1dL" id="rgi-cF-bYf"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

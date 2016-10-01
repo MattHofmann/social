@@ -141,14 +141,38 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                     print("DEV: Successfully uploaded image to Firebase storage")
                     // get download url to the image
                     let downloadURL = metadata?.downloadURL()?.absoluteString
+                    // create a post with the downloadURL
+                    if let url = downloadURL {
+                        self.postToFirebase(imageUrl: url)
+                    }
                 }
             }
         }
         
-        // TODO: Stop uploading similiar posts (Eg. fast pressing the button?) 
+        // TODO: prevent uploading identical posts (Eg. fast pressing the button?)
         
     }
 
+    func postToFirebase(imageUrl: String) {
+        // define the dictionary
+        let post: Dictionary<String, Any> = [
+        "caption": captionField.text!,
+        "imageUrl": imageUrl,
+        "likes": 0
+        ]
+        // create a post, using Firebase to create a postId
+        let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
+        firebasePost.setValue(post)
+        
+        // reset UI
+        captionField.text = ""
+        imageSelected = false
+        addImage.image = UIImage(named: "add-image")
+        // reload tableView
+        tableView.reloadData()
+    }
+    
+    
     /*
     // MARK: - Navigation
 

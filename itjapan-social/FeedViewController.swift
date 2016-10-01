@@ -16,12 +16,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addImage: CircleView!
+    @IBOutlet weak var captionField: CustomTextField!
     
     // MARK: Variables
     
     var posts = [Post]()
     var imagePicker: UIImagePickerController!
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
+    var imageSelected = false
     
     // MARK: VC Methods
     
@@ -91,6 +93,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             addImage.image = image
+            imageSelected = true
         } else {
             print("DEV: Invalid image selected")
         }
@@ -108,6 +111,42 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func addImagePressed(_ sender: AnyObject) {
         present(imagePicker, animated: true, completion: nil)
+    }
+    
+    @IBAction func postButtonPressed(_ sender: AnyObject) {
+        // check if there is any caption and image before posting
+        guard let caption = captionField.text, caption != "" else {
+            print("DEV: Caption must be entered")
+            // TODO: Inform the user to enter a caption (or make it optional)
+            return
+        }
+        guard let image = addImage.image, imageSelected == true else {
+            print("DEV: An image must be selected")
+            // TODO: Inform the user to select an image
+            return
+        }
+        
+        // upload compressed image
+        if let imageData = UIImageJPEGRepresentation(image, 0.2) {
+            // get a unique identifier and set metadata
+            let imageUid = NSUUID().uuidString
+            let metadata = FIRStorageMetadata()
+            metadata.contentType = "image/jpeg"
+            // post image and metadata in child of Unique identifier
+            DataService.ds.REF_POST_IMAGES.child(imageUid).put(imageData, metadata: metadata) { (metadata, error) in
+                if error != nil {
+                    print("DEV: Unable to upload image to Firebase storage")
+                    // TODO: Inform the user that the upload has failed
+                } else {
+                    print("DEV: Successfully uploaded image to Firebase storage")
+                    // get download url to the image
+                    let downloadURL = metadata?.downloadURL()?.absoluteString
+                }
+            }
+        }
+        
+        // TODO: Stop uploading similiar posts (Eg. fast pressing the button?) 
+        
     }
 
     /*

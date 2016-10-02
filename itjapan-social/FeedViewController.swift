@@ -40,18 +40,22 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         imagePicker.delegate = self
         
         // listener to get post data
-        DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
+        // with a query to sort by postedDate
+        DataService.ds.REF_POSTS.queryOrdered(byChild: "postedData").observe(.value, with: { (snapshot) in
             // print(snapshot.value)
             self.posts = []
             // parse firebase post data
             if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                 for snap in snapshot {
-                    print("SNAP: \(snap)")
+                    //print("SNAP: \(snap)")
                     
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
                         let key = snap.key
                         let post = Post(postId: key, postData: postDict)
-                        self.posts.append(post)
+                        // oldest post first
+                        // self.posts.append(post)
+                        // newest post first
+                        self.posts.insert(posts, at: 0)
                     }
                 }
             }
@@ -72,6 +76,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        //let post = posts.reversed()[indexPath.row] // reverse the tableView elements
         let post = posts[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as? PostCell {
@@ -159,7 +164,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         let post: Dictionary<String, Any> = [
         "caption": captionField.text!,
         "imageUrl": imageUrl,
-        "likes": 0
+        "likes": 0,
+        "postedDate": FIRServerValue.timestamp()
         ]
         // create a post, using Firebase to create a postId
         let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
